@@ -13,10 +13,25 @@
     --color-text: "#6a6b6f";
 }
 
-.card-style {
-    @apply bg-gradient-to-br from-white via-[#fbfafb] to-[#f9f6f6] shadow shadow-[#efeded] border-[#efeded] border;
+@layer utilities {
+    .surface-elevated {
+        @apply bg-gradient-to-br from-white via-[#fbfafb] to-[#f9f6f6] shadow-[#efeded] border-[#efeded] border;
+    }
+
+    .surface-elevated-secondary {
+        @apply bg-gradient-to-br from-gray-200 via-[#f1f1f1] to-[#f9f6f6] shadow-[#efeded] border-[#efeded] border;
+    }
+
+    .surface-elevated-danger {
+        @apply bg-gradient-to-br from-red-50 via-[#f9e4e4] to-[#f7dbdb] shadow-[#ffe5e5] border-[#ffe5e5] border text-red-400;
+    }
 }
 
-.card-style-inner {
-    @apply bg-gradient-to-br from-white via-[#fbfafb] to-[#f9f6f6] shadow-inner shadow-[#efeded] border-[#efeded] border;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-4">
         <div
-            class="mx-auto card-style h-9 px-3 w-fit flex items-center justify-center rounded-full"
+            class="mx-auto surface-elevated shadow h-9 px-3 w-fit flex items-center justify-center rounded-full"
         >
             <span class="text-gray-700 font-semibold"
                 >Tools Make Day Easier 🤖</span
