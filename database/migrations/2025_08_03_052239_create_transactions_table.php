@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            
+            $table->bigInteger('cash');
+            $table->string('total');
+            $table->bigInteger('change');
             $table->timestamps();
         });
     }

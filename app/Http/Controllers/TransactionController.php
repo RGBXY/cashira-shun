@@ -3,13 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
 
 class TransactionController extends Controller
 {
+    public function store(Request $request) {
+
+        $validated = $request->validate([
+            'cash' => 'required|integer',
+            'total' => 'required|integer',
+            'change' => 'required|integer',
+            'cart' => 'required|array'
+        ]);
+    
+        $transaction = Transaction::create([
+            'cash' => $validated['cash'],
+            'total' => $validated['total'],
+            'change' => $validated['change'],
+        ]);
+
+        foreach($request->cart as $cart) {
+            $transaction->details()->create([
+                'transaction_id'    => $transaction->id,
+                'product_id'     => $cart['id'],
+                'qty'            => $cart['qty'],
+                'unit'           => $cart['unit'],
+                'price'          => $cart['price'],
+            ]);
+        }
+    }
+
+
     public function searchByBarcode(Request $request) {
         $product = Product::where('barcode', $request->barcode)
                     ->first(); 
@@ -40,6 +67,30 @@ class TransactionController extends Controller
 
     public function test(Request $request)
     {
+        $validated = $request->validate([
+            'cash' => 'required|integer',
+            'total' => 'required|integer',
+            'change' => 'required|integer',
+            'cart' => 'required|array'
+        ]);
+    
+        $transaction = Transaction::create([
+            'cash' => $validated['cash'],
+            'total' => $validated['total'],
+            'change' => $validated['change'],
+        ]);
+
+        foreach($request->cart as $cart) {
+            $transaction->details()->create([
+                'transaction_id'    => $transaction->id,
+                'product_id'     => $cart['id'],
+                'name'           => $cart['name'],
+                'qty'            => $cart['qty'],
+                'unit'           => $cart['unit'],
+                'price'          => $cart['price'],
+            ]);
+        }
+
         function justifyText($left, $right, $width = 32)
         {
             $left = (string) $left;
@@ -48,12 +99,6 @@ class TransactionController extends Controller
 
             return $left . str_repeat(" ", max(1, $space)) . $right;
         }
-
-        $request->validate([
-            'products' => 'required|array',
-            'cash' => 'required|integer',
-            'change' => 'required|integer'
-        ]);
 
         try {
             // Ganti "POS-58" sesuai nama printer kamu
@@ -77,7 +122,7 @@ class TransactionController extends Controller
 
             $subtotal = 0;
 
-            foreach ($request->products as $product) {
+            foreach ($request->cart as $product) {
                 $name = $product['name'] ?? '-';
                 $qty = $product['qty'] ?? 0;
                 $price = $product['price'] ?? 0;
@@ -99,7 +144,7 @@ class TransactionController extends Controller
 
             // Waktu
             $printer->setJustification(Printer::JUSTIFY_RIGHT);
-            $printer->text(date("d/m/Y H:i") . "\n");
+            $printer->text(date("d/m/Y") . "\n");
 
             $printer->feed(2);
             $printer->cut();

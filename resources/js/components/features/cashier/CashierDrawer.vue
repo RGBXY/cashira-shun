@@ -25,10 +25,6 @@
                             <span><PhArrowsClockwise /></span>
                         </Button>
 
-                        <Button @click="clear()" class="flex-1">
-                            <span>Submit</span>
-                        </Button>
-
                         <Button @click="print()" class="flex-1">
                             <span>Print</span>
                         </Button>
@@ -66,7 +62,7 @@
                         >
                             <div
                                 v-if="products.length > 0"
-                                class="flex flex-col gap-2"
+                                class="flex flex-col gap-2 max-h-100 overflow-auto pb-1"
                             >
                                 <CashierSearchCard
                                     @click="addOrder(product)"
@@ -145,26 +141,34 @@ const searchBarcode = ref(null);
 const itemPriceTotal = ref(0);
 
 const print = () => {
-    if (
-        cart.value.length !== 0 &&
-        cash.value !== 0 &&
-        cash.value >= itemPriceTotal.value
-    ) {
-        router.post(
-            "/print-receipt",
-            {
-                products: cart.value,
-                cash: cash.value,
-                change: change.value,
-            },
-            {
-                onSuccess: () => {
-                    notification("success", "Data Printed Successfully");
-                    clear();
-                },
-            }
-        );
+    const isValid =
+        cart.value.length > 0 &&
+        cash.value !== null &&
+        cash.value > 0 &&
+        cash.value >= itemPriceTotal.value;
+
+    if (!isValid) {
+        notification("error", "Isi data dengan benar sebelum mencetak.");
+        return;
     }
+
+    const payload = {
+        cart: cart.value,
+        cash: cash.value,
+        change: change.value,
+        total: itemPriceTotal.value,
+    };
+
+    router.post("/print-receipt", payload, {
+        onSuccess: () => {
+            notification("success", "Transaksi berhasil dan struk tercetak.");
+            clear();
+        },
+        onError: (error) => {
+            notification("error", "Gagal menyimpan data.");
+            console.error(error);
+        },
+    });
 };
 
 const addOrder = (order) => {
@@ -276,7 +280,7 @@ watch(
     { deep: true }
 );
 
-onKeyStroke("p", (e) => {
+onKeyStroke("Tab", (e) => {
     e.preventDefault();
     print();
 });

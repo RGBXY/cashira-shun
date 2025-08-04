@@ -18,7 +18,7 @@ const { modalFnc } = methodStore;
 <template>
     <div class="h-full w-full flex items-center justify-center">
         <div
-            class="h-full max-w-5xl w-full text-center py-30 flex flex-col gap-14 items-center justify-center"
+            class="h-full max-w-3xl w-full text-center py-30 flex flex-col gap-14 items-center justify-center"
         >
             <BannerSection />
 

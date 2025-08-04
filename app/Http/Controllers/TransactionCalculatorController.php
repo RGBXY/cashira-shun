@@ -15,7 +15,7 @@ class TransactionCalculatorController extends Controller
             'total' => 'required|integer',
         ]);
     
-       $data =  TransactionCalculator::create([
+       $data = TransactionCalculator::create([
             'expressions' => $validated['expressions'],
             'total' => $validated['total'],
         ]);
@@ -23,10 +23,10 @@ class TransactionCalculatorController extends Controller
 
     public function test(Request $request)
     {
-
         $request->validate([
             'expressions' => 'required|array',
-            'total' => 'required|string'
+            'totalDisplay' => 'required|string',
+            'total' => 'required|integer'
         ]);
 
         try {
@@ -51,10 +51,12 @@ class TransactionCalculatorController extends Controller
 
             $printer->feed();
 
-            $printer->text('Total: ' . $request->total . "\n");
+            $printer->text('Total: ' . $request->totalDisplay . "\n");
 
             $printer->cut();
             $printer->close();
+
+            $this->store($request);
 
         } catch (\Exception $e) {
             return "Gagal print: " . $e->getMessage();

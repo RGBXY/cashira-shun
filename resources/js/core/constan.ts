@@ -17,4 +17,10 @@ export const tools_data = [
         icon: "/assets/product.png",
         link: "/products",
     },
+    {
+        id: 4,
+        name: "Sales",
+        icon: "/assets/sales.png",
+        link: "/sales",
+    },
 ];

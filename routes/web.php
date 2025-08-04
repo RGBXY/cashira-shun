@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionCalculatorController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'index');
 
+
+Route::get('/sales', [SaleController::class, 'index']);
+Route::post('/sales/searchById', [SaleController::class, 'searchById']);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'store']);
@@ -22,4 +26,6 @@ Route::post('/test-print', [TransactionCalculatorController::class, 'test']);
 Route::post('/searchByBarcode', [TransactionController::class, 'searchByBarcode']);
 Route::post('/searchByName', [TransactionController::class, 'searchProductName']);
 Route::post('/print-receipt', [TransactionController::class, 'test']);
+
+
 

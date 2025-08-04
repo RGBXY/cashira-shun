@@ -63,7 +63,7 @@
                         </Button>
                     </div>
 
-                    <Button @click="print" class="flex-1 w-full">
+                    <Button @click="print()" class="flex-1 w-full">
                         <span>Print</span>
                     </Button>
                 </div>
@@ -74,7 +74,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { PhArrowsClockwise, PhPower } from "@phosphor-icons/vue";
+import { PhPower } from "@phosphor-icons/vue";
 import { useMethodStore } from "../../../stores/method";
 import Drawer from "../../ui/Drawer.vue";
 import Button from "../../ui/Button.vue";
@@ -89,20 +89,14 @@ const expression = ref([]);
 const result = ref(0);
 const pendingOperator = ref(null);
 
-const submit = () => {
-    router.post("/store-calculator", {
-        expressions: expression.value,
-        total: result.value,
-    });
-};
-
 const print = () => {
     if (result.value === 0) return;
     router.post(
         "/test-print",
         {
             expressions: expression.value,
-            total: formatPrice(result.value),
+            totalDisplay: formatPrice(result.value),
+            total: result.value,
         },
         {
             onSuccess: () => {
@@ -165,9 +159,6 @@ const calculate = () => {
             )
             .join(" ");
         result.value = eval(validExpression);
-        if (expression.value.length > 0) {
-            submit();
-        }
     } catch (e) {
         result.value = "Error";
     }
