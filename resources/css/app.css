@@ -15,15 +15,15 @@
 
 @layer utilities {
     .surface-elevated {
-        @apply bg-gradient-to-br from-white via-[#fbfafb] to-[#f9f6f6] shadow-[#efeded] border-[#efeded] border;
+        @apply bg-gradient-to-br from-white via-[#fbfafb] to-[#f9f6f6] shadow-[#efeded] border-[#cecece] border-2;
     }
 
     .surface-elevated-secondary {
-        @apply bg-gradient-to-br from-gray-200 via-[#f1f1f1] to-[#f9f6f6] shadow-[#efeded] border-[#efeded] border;
+        @apply bg-gradient-to-br from-gray-200 via-[#f1f1f1] to-[#f9f6f6] shadow-[#efeded] border-[#efeded] border-2;
     }
 
     .surface-elevated-danger {
-        @apply bg-gradient-to-br from-red-50 via-[#f9e4e4] to-[#f7dbdb] shadow-[#ffe5e5] border-[#ffe5e5] border text-red-400;
+        @apply bg-gradient-to-br from-red-50 via-[#f9e4e4] to-[#f7dbdb] shadow-[#ffe5e5] border-[#ffe5e5] border-2 text-red-400;
     }
 }
 

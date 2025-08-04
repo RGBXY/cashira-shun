@@ -26,7 +26,7 @@ class TransactionCalculatorController extends Controller
 
         $request->validate([
             'expressions' => 'required|array',
-            'total' => 'required|integer'
+            'total' => 'required|string'
         ]);
 
         try {
@@ -48,6 +48,8 @@ class TransactionCalculatorController extends Controller
             foreach ($request->expressions as $detail) {
                 $printer->text( $detail . "\n");
             }
+
+            $printer->feed();
 
             $printer->text('Total: ' . $request->total . "\n");
 

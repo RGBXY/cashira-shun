@@ -276,30 +276,8 @@ watch(
     { deep: true }
 );
 
-onKeyStroke("[", (e) => {
+onKeyStroke("p", (e) => {
     e.preventDefault();
-    append("+");
+    print();
 });
-onKeyStroke("]", (e) => {
-    e.preventDefault();
-    append("-");
-});
-onKeyStroke(";", (e) => {
-    e.preventDefault();
-    append("*");
-});
-onKeyStroke("'", (e) => {
-    e.preventDefault();
-    append("/");
-});
-onKeyStroke("=", (e) => {
-    e.preventDefault();
-    calculate();
-    value1.value = null;
-});
-// onKeyStroke("enter", (e) => {
-//     e.preventDefault();
-
-//     // print();
-// });
 </script>
